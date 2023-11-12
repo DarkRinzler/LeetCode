@@ -3,9 +3,7 @@
 # ===================================
 
 # Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-#
 # You may assume that each input would have exactly one solution, and you may not use the same element twice.
-#
 # You can return the answer in any order.
 
 # Difficulty: Easy
@@ -20,6 +18,7 @@
 # ===================================
 
 # Complexity O(n^2)
+# The code checks if num_1 is part of the original list nums, and disregards the cases where the target is reached by summing the an element in the list with itself.
 
 #!/bin/python3
 
@@ -41,6 +40,20 @@ class Solution:
 # ===================================
 
 # Complexity O(n)
+# The code checks if num_1 is part of an empty dictionary. If the value is present in the dictionary it returns the index of the number that yields the desired target. 
+# Otherwise the dictionary is updated with the number of the list and the corresponding index. 
+
+#!/bin/python3
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        index_dict = {}
+        for k, num in enumerate(nums):
+            value = target - num
+            if value in index_dict:
+                return [index_dict[value],k]
+            index_dict[num] = k
+        return []
 
 #!/bin/python3
 
