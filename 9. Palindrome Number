@@ -17,6 +17,8 @@
 
 # Using the str operator.
 
+#!/bin/python3
+
 class Solution:
     def isPalindrome(self, x: int) -> bool:
         value = list(str(x))
