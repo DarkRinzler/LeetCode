@@ -1,0 +1,46 @@
+# ===================================
+#   Problem statement & information
+# ===================================
+
+# Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+#
+# You may assume that each input would have exactly one solution, and you may not use the same element twice.
+#
+# You can return the answer in any order.
+
+# Difficulty: Easy
+# Language: Python
+
+# ===================================
+#             Solution
+# ===================================
+
+# ===================================
+#             Method 1
+# ===================================
+
+# Complexity O(n^2)
+
+#!/bin/python3
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        index_list = []
+        for k in range(len(nums)):
+            num_1 = target - nums[k]
+            if num_1 in nums:
+                index_1 = nums.index(num_1)
+                if index_1 == k:
+                    continue
+                index_list.extend([index_1,k])
+                break
+        return index_list
+
+# ===================================
+#             Method 2
+# ===================================
+
+# Complexity O(n)
+
+#!/bin/python3
+
