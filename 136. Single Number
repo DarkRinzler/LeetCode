@@ -1,0 +1,46 @@
+# ===================================
+#   Problem statement & information
+# ===================================
+
+# Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+# You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+# Difficulty: Easy
+# Language: Python
+
+# ===================================
+#             Solution
+# ===================================
+
+# ===================================
+#             Method 1
+# ===================================
+
+# Extra space O(n), complexity O(n) 
+# The code creates a dictionary with the frequency for each element of nums. The value stored with the lowest frequency is then selected.
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        index = {}
+        for k, num in enumerate(nums):
+            if num in index:
+                index[num] += 1
+            else:
+                index[num] = 1
+        for key, value in index.items():
+            if value == 1:
+                return key
+
+# ===================================
+#             Method 2
+# ===================================
+
+# Extra space O(1), complexity O(n) 
+# The code takes advantage of the XOR in built function to inspect each element of nums and return the only value with the lowest frequency.
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        prov = 0
+        for num in nums:
+            prov ^= num
+        return prov
