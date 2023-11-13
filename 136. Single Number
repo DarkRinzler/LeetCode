@@ -16,8 +16,10 @@
 #             Method 1
 # ===================================
 
-# Extra space O(n), complexity O(n) 
+# Time complexity O(n), space complexity O(n)
 # The code creates a dictionary with the frequency for each element of nums. The value stored with the lowest frequency is then selected.
+
+#!/bin/python3
 
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
