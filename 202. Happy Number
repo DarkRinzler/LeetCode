@@ -1,0 +1,34 @@
+# ===================================
+#   Problem statement & information
+# ===================================
+
+# Write an algorithm to determine if a number n is happy.
+# A happy number is a number defined by the following process:
+# • Starting with any positive integer, replace the number by the sum of the squares of its digits.
+# • Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.
+# • Those numbers for which this process ends in 1 are happy.
+# Return true if n is a happy number, and false if not.
+
+# Difficulty: Easy
+# Language: Python
+
+# ===================================
+#             Solution
+# ===================================
+
+# Time complexity O(log n), space complexity O(log n) 
+# The code computes the sum of the squares of each digit of the number n and repeats the cycle until either 1 is reached. To avoid infinite loops, the code stores the sums in a dictionary 
+# and checks for their existence. 
+
+#!/bin/python3
+
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        nums_set = {}
+        while n != 1:
+            n = sum(int(k) ** 2 for k in str(n))
+            if n in nums_set:
+                return False
+            else:
+                nums_set[n] = 1
+        return True
