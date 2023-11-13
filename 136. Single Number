@@ -21,15 +21,10 @@
 
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        index = {}
+        index = dict.fromkeys(nums,0)
         for k, num in enumerate(nums):
-            if num in index:
-                index[num] += 1
-            else:
-                index[num] = 1
-        for key, value in index.items():
-            if value == 1:
-                return key
+            index[num] += 1
+        return next((key for key, value in index.items() if value == 1), None)
 
 # ===================================
 #             Method 2
