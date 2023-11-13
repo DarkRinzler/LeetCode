@@ -17,7 +17,7 @@
 #             Method 1
 # ===================================
 
-# Complexity O(n^2)
+# Time Complexity O(n^2), space complexity O(n)
 # The code checks if num_1 is part of the original list nums, and disregards the cases where the target is reached by summing the an element in the list with itself.
 
 #!/bin/python3
@@ -39,7 +39,7 @@ class Solution:
 #             Method 2
 # ===================================
 
-# Complexity O(n)
+# Time Complexity O(n), space complexity O(n)
 # The code checks if num_1 is part of an empty dictionary. If the value is present in the dictionary it returns the index of the number that yields the desired target. 
 # Otherwise the dictionary is updated with the number of the list and the corresponding index. 
 
