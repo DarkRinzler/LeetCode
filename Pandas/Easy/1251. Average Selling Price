@@ -1,0 +1,72 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: Prices
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| start_date    | date    |
+| end_date      | date    |
+| price         | int     |
++---------------+---------+
+
+(product_id, start_date, end_date) is the primary key (combination of columns with unique values) for this table.
+
+Each row of this table indicates the price of the product_id in the period from start_date to end_date.
+
+For each product_id there will be no two overlapping periods. That means there will be no two intersecting periods for the same product_id.
+ 
+Table: UnitsSold
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| purchase_date | date    |
+| units         | int     |
++---------------+---------+
+
+This table may contain duplicate rows.
+
+Each row of this table indicates the date, units, and product_id of each product sold. 
+ 
+
+Write a solution to find the average selling price for each product. average_price should be rounded to 2 decimal places. If a product does not have any sold units, its average selling price is assumed to be 0.
+
+Return the result table in any order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+import numpy as np
+
+def average_selling_price(prices: pd.DataFrame, units_sold: pd.DataFrame) -> pd.DataFrame:
+
+    merged_table = pd.merge(
+        left = prices,
+        right = units_sold,
+        how = 'left',
+        on = 'product_id'
+    )
+
+    valid_sales = merged_table[(merged_table['purchase_date'] >= merged_table['start_date']) & 
+        (merged_table['purchase_date'] <= merged_table['end_date'])]
+
+    valid_sales['total_price'] = valid_sales['price'] * valid_sales['units']
+
+    price_total_sum = valid_sales.groupby(by = 'product_id')['total_price'].sum()
+    total_units = units_sold.groupby(by = 'product_id')['units'].sum()
+
+    average_price = (price_total_sum / total_units).fillna(value = 0).round(2)
+
+    result = pd.DataFrame({'product_id': prices['product_id'].unique()}).set_index('product_id')
+
+    result['average_price'] = average_price 
+
+    return result.reset_index().fillna(value = 0)
