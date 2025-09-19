@@ -1,0 +1,82 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: library_books
+
++------------------+---------+
+| Column Name      | Type    |
++------------------+---------+
+| book_id          | int     |
+| title            | varchar |
+| author           | varchar |
+| genre            | varchar |
+| publication_year | int     |
+| total_copies     | int     |
++------------------+---------+
+
+book_id is the unique identifier for this table.
+
+Each row contains information about a book in the library, including the total number of copies owned by the library.
+
+
+Table: borrowing_records
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| record_id     | int     |
+| book_id       | int     |
+| borrower_name | varchar |
+| borrow_date   | date    |
+| return_date   | date    |
++---------------+---------+
+
+record_id is the unique identifier for this table.
+
+Each row represents a borrowing transaction and return_date is NULL if the book is currently borrowed and hasn't been returned yet.
+
+Write a solution to find all books that are currently borrowed (not returned) and have zero copies available in the library.
+
+・ A book is considered currently borrowed if there exists a borrowing record with a NULL return_date
+
+Return the result table ordered by current borrowers in descending order, then by book title in ascending order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_books_with_no_available_copies(library_books: pd.DataFrame, borrowing_records: pd.DataFrame) -> pd.DataFrame:
+    
+    borrow_mask = borrowing_records['return_date'].isna()
+
+    borrowed_books = (
+        borrowing_records
+        .loc[borrow_mask, :]
+        .groupby(by = 'book_id')['return_date']
+        .size()
+        .rename('current_borrowers')
+    )
+
+    all_info = pd.merge(
+        left = library_books,
+        right = borrowed_books,
+        how = 'left',
+        on = 'book_id'
+    )
+
+    all_info['current_borrowers'] = all_info['current_borrowers'].fillna(value = 0)
+    available_mask = (all_info['total_copies'] - all_info['current_borrowers']) == 0
+
+    not_available_books = (
+        all_info
+        .loc[available_mask, :]
+        .drop(columns = ['total_copies'])
+        .sort_values(by = ['current_borrowers', 'title'], ascending = [False, True])
+    )
+    
+    return not_available_books
+
