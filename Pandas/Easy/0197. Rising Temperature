@@ -1,0 +1,43 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: Weather
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| recordDate    | date    |
+| temperature   | int     |
++---------------+---------+
+
+id is the column with unique values for this table.
+
+There are no different rows with the same recordDate.
+
+This table contains information about the temperature on a certain day.
+ 
+
+Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday).
+
+Return the result table in any order
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def rising_temperature(weather: pd.DataFrame) -> pd.DataFrame:
+    
+    weather_sorted = weather.sort_values(by = 'recordDate', axis = 0)
+    
+    temp_diff = weather_sorted['temperature'].diff(periods = 1)
+    
+    day_diff = weather_sorted['recordDate'].diff(periods = 1).dt.days
+
+    return weather.loc[(temp_diff > 0) & (day_diff == 1), ['id']]
