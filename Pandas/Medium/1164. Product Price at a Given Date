@@ -1,0 +1,49 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: Products
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| new_price     | int     |
+| change_date   | date    |
++---------------+---------+
+
+(product_id, change_date) is the primary key (combination of columns with unique values) of this table.
+
+Each row of this table indicates that the price of some product was changed to a new price at some date.
+
+Initially, all products have price 10.
+
+Write a solution to find the prices of all products on the date 2019-08-16.
+
+Return the result table in any order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+import pandas as pd
+
+def price_at_given_date(products: pd.DataFrame) -> pd.DataFrame:
+
+    idx_dates = (
+        products
+        .loc[products['change_date'] <= '2019-08-16']
+        .groupby(by = 'product_id')['change_date']
+        .idxmax()
+    )
+    
+    prices = (
+        products
+        .loc[idx_dates, ['product_id', 'new_price']]
+        .set_index('product_id')
+    )
+
+    result = pd.DataFrame({'product_id' : products['product_id'].unique()})
+    result['price'] = result['product_id'].map(prices['new_price']).fillna(value = 10)
+
+    return result
