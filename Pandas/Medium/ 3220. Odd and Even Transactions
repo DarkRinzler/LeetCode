@@ -1,3 +1,7 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
 Table: transactions
 
 +------------------+------+
@@ -17,7 +21,10 @@ Write a solution to find the sum of amounts for odd and even transactions for ea
 Return the result table ordered by transaction_date in ascending order.
 
 
-SOLUTION:
+# =================================================== #
+                    SOLUTION    
+# =================================================== #
+
 
 import pandas as pd
 
