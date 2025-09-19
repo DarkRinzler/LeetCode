@@ -1,0 +1,35 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: Employee
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+
+id is the primary key (column with unique values) for this table.
+
+Each row of this table contains information about the salary of an employee.
+ 
+Write a solution to find the second highest distinct salary from the Employee table. If there is no second highest salary, return null (return None in Pandas).
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+import pandas as pd
+
+def second_highest_salary(employee: pd.DataFrame) -> pd.DataFrame:
+    
+    unique_salaries = employee['salary'].drop_duplicates().nlargest(n = 2)
+    second_salary = unique_salaries.iloc[1] if len(unique_salaries) > 1 else pd.NA
+
+    result = pd.DataFrame({'SecondHighestSalary' : [second_salary]})
+    
+    return result
+
