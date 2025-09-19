@@ -1,0 +1,40 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: ActorDirector
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| actor_id    | int     |
+| director_id | int     |
+| timestamp   | int     |
++-------------+---------+
+
+timestamp is the primary key (column with unique values) for this table.
+ 
+
+Write a solution to find all the pairs (actor_id, director_id) where the actor has cooperated with the director at least three times.
+
+Return the result table in any order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def actors_and_directors(actor_director: pd.DataFrame) -> pd.DataFrame:
+    
+    actor_director = (
+        actor_director
+        .groupby(by = ['actor_id', 'director_id'])
+        .agg(
+            pair_count = ('timestamp', 'size')
+        )
+        .reset_index()
+    )
+
+    return actor_director.loc[actor_director['pair_count'] >= 3][['actor_id', 'director_id']]
