@@ -1,0 +1,50 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: transactions
+
++------------------+------+
+| Column Name      | Type | 
++------------------+------+
+| transaction_id   | int  |
+| amount           | int  |
+| transaction_date | date |
++------------------+------+
+
+The transactions_id column uniquely identifies each row in this table.
+
+Each row of this table contains the transaction id, amount and transaction date.
+
+Write a solution to find the sum of amounts for odd and even transactions for each day. If there are no odd or even transactions for a specific date, display as 0.
+
+Return the result table ordered by transaction_date in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def sum_daily_odd_even(transactions: pd.DataFrame) -> pd.DataFrame:
+    
+    even_mask = (transactions['amount'] % 2) == 0
+    
+    transactions['even'] = transactions['amount'].where(even_mask, 0)
+    transactions['odd'] = transactions['amount'].where(~even_mask, 0)
+    
+    parity_transactions = (
+        transactions
+        .groupby(by = 'transaction_date')
+        .agg(
+            odd_sum = ('odd', 'sum'),
+            even_sum = ('even', 'sum')
+        )
+        .reset_index()
+        .sort_values(by = 'transaction_date')
+    )
+
+    return parity_transactions
