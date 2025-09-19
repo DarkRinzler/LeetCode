@@ -1,0 +1,57 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: Project
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| project_id  | int     |
+| employee_id | int     |
++-------------+---------+
+
+(project_id, employee_id) is the primary key of this table.
+
+employee_id is a foreign key to Employee table.
+
+Each row of this table indicates that the employee with employee_id is working on the project with project_id.
+ 
+
+Table: Employee
+
++------------------+---------+
+| Column Name      | Type    |
++------------------+---------+
+| employee_id      | int     |
+| name             | varchar |
+| experience_years | int     |
++------------------+---------+
+
+employee_id is the primary key of this table. It's guaranteed that experience_years is not NULL.
+
+Each row of this table contains information about one employee.
+ 
+
+Write an SQL query that reports the average experience years of all the employees for each project, rounded to 2 digits.
+
+Return the result table in any order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def project_employees_i(project: pd.DataFrame, employee: pd.DataFrame) -> pd.DataFrame:
+    
+    project['experience_years'] = project['employee_id'].map(employee.set_index('employee_id')['experience_years'])
+
+    result = (
+        project
+        .groupby(by = 'project_id').agg(average_years = ('experience_years', lambda x: round(x.mean(), 2)))
+        .reset_index()
+        )
+    
+    return result
