@@ -1,0 +1,33 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+DataFrame weather:
+
++-------------+--------+
+| Column Name | Type   |
++-------------+--------+
+| city        | object |
+| month       | object |
+| temperature | int    |
++-------------+--------+
+
+Write a solution to pivot the data so that each row represents temperatures for a specific month, and each city is a separate column.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def pivotTable(weather: pd.DataFrame) -> pd.DataFrame:
+     
+    result = pd.pivot_table(
+        weather,
+        values = 'temperature',
+        index = 'month',
+        columns = 'city'
+    )
+
+    return result
