@@ -1,0 +1,57 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Table: Employees
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| name        | varchar |
++-------------+---------+
+
+employee_id is the column with unique values for this table.
+
+Each row of this table indicates the name of the employee whose ID is employee_id.
+ 
+
+Table: Salaries
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| salary      | int     |
++-------------+---------+
+
+employee_id is the column with unique values for this table.
+
+Each row of this table indicates the salary of the employee whose ID is employee_id.
+ 
+
+Write a solution to report the IDs of all the employees with missing information. The information of an employee is missing if:
+
+・ The employee's name is missing, or
+
+・ The employee's salary is missing.
+
+Return the result table ordered by employee_id in ascending order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_employees(employees: pd.DataFrame, salaries: pd.DataFrame) -> pd.DataFrame:
+    
+    employee_id = set(employees['employee_id'])
+    salary_id = set(salaries['employee_id'])
+
+    missing = employee_id ^ salary_id
+
+    result = pd.DataFrame(data = sorted(missing), columns = ['employee_id'])
+
+    return result
