@@ -1,0 +1,28 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+
+Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def findLHS(self, nums: List[int]) -> int:
+        
+        hash_count = {}
+        length = 0
+
+        for num in nums:
+            hash_count[num] = hash_count.get(num, 0) + 1
+        
+        for num in hash_count.keys():
+            if num + 1 in hash_count:
+                length = max(length, hash_count[num] + hash_count[num + 1])
+        
+        return length
+
