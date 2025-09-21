@@ -1,0 +1,27 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+A pangram is a sentence where every letter of the English alphabet appears at least once.
+
+Given a string sentence containing only lowercase English letters, return true if sentence is a pangram, or false otherwise.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def checkIfPangram(self, sentence: str) -> bool:
+        
+        letter_map = {}
+
+        for char in sentence:
+            letter_map[char] = letter_map.get(char, 0) + 1
+
+        if len(letter_map.keys()) == 26:
+            return True
+        else:
+            return False
