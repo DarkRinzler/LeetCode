@@ -1,0 +1,31 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given an array of integers nums, sort the array in increasing order based on the frequency of the values. 
+
+If multiple values have the same frequency, sort them in decreasing order.
+
+Return the sorted array.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def frequencySort(self, nums: List[int]) -> List[int]:
+        
+        freq_map = {}
+
+        for num in nums:
+            freq_map[num] = freq_map.get(num, 0) + 1
+        
+        sorted_freq_map = sorted(freq_map.items(), key = lambda x: (x[1], - x[0]))
+        
+        result = [num for num, freq in sorted_freq_map for _ in range(freq)]
+
+        return result
+
