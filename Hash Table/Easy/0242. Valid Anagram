@@ -1,0 +1,24 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        
+        s_dict = {}
+
+        if len(s) != len(t):
+            return False
+
+        for char_s, char_t in zip(s, t):
+            s_dict[char_s] = s_dict.get(char_s, 0) + 1
+            s_dict[char_t] = s_dict.get(char_t, 0) - 1
+
+        return all(char == 0 for char in s_dict.values())
+
