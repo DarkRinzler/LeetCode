@@ -1,0 +1,31 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Given two integer arrays nums1 and nums2, return an array of their intersection. 
+
+Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        
+        if len(nums1) < len(nums2):
+            nums1, nums2 = nums2, nums1
+        
+        result = []
+        hashmap = {} 
+
+        for value2 in nums2:
+            hashmap[value2] = hashmap.get(value2, 0) + 1
+        
+        for value1 in nums1:
+            if hashmap.get(value1, 0) > 0:
+                result.append(value1)
+                hashmap[value1] = hashmap.get(value1) - 1
+        
+        return result 
