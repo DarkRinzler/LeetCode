@@ -1,0 +1,35 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        
+        frequencies = {}
+        max_length = 0
+        has_odd = False
+
+        for letter in s:
+            frequencies[letter] = frequencies.get(letter, 0) + 1
+
+        for count in frequencies.values():
+            if count % 2 == 0:
+                max_length += count
+            else:
+                max_length += count - 1
+                has_odd = True
+
+        if has_odd:
+            return max_length + 1
+        else:
+            return max_length
+            
