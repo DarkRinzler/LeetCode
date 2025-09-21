@@ -1,0 +1,25 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+You are given an integer array nums. The unique elements of an array are the elements that appear exactly once in the array.
+
+Return the sum of all the unique elements of nums.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def sumOfUnique(self, nums: List[int]) -> int:
+        
+        hash_map = {}
+
+        for num in nums:
+            hash_map[num] = hash_map.get(num, 0) + 1
+        
+        return sum(key for key, value in hash_map.items() if value == 1)
+        
