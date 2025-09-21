@@ -1,0 +1,37 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). 
+
+You may return the answer in any order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def commonChars(self, words: List[str]) -> List[str]:
+
+        common_counts = {}
+        for char in words[0]:
+            common_counts[char] = common_counts.get(char, 0) + 1
+        
+        for word in words[1:]:
+            word_counts = {}
+            for char in word:
+                if char in common_counts:
+                    word_counts[char] = word_counts.get(char, 0) + 1
+
+            for key in word_counts:
+                word_counts[key] = min(word_counts[key], common_counts[key])
+            
+            if not word_counts:
+                return []
+                
+            common_counts = word_counts
+
+        return [char for char, freq in common_counts.items() for _ in range(freq)]
