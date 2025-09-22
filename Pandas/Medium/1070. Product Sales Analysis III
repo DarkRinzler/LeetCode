@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Sales
 
 +-------------+-------+
@@ -33,9 +34,11 @@ Return a table with the following columns: product_id, first_year, quantity, and
 
 Return the result in any order.
 
+
 # =================================================== #
                       SOLUTION
 # =================================================== #
+
 
 import pandas as pd
 
