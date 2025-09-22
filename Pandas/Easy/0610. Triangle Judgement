@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Triangle
 
 +-------------+------+
@@ -20,6 +21,7 @@ Each row of this table contains the lengths of three line segments.
 Report for every three line segments whether they can form a triangle.
 
 Return the result table in any order.
+
 
 # =================================================== #
                       SOLUTION
