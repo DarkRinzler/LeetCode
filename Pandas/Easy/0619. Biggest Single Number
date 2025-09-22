@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: MyNumbers
 
 +-------------+------+
@@ -18,6 +19,7 @@ Each row of this table contains an integer.
 A single number is a number that appeared only once in the MyNumbers table.
 
 Find the largest single number. If there is no single number, report null.
+
 
 # =================================================== #
                       SOLUTION
