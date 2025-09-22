@@ -1,0 +1,38 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given a string s, reverse the string according to the following rules:
+
+• All the characters that are not English letters remain in the same position.
+
+• All the English letters (lowercase or uppercase) should be reversed.
+
+Return s after reversing it.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def reverseOnlyLetters(self, s: str) -> str:
+        
+        arr = list(s)
+
+        left, right = 0, len(s) - 1
+
+        while left < right:
+            if arr[left].isalpha():
+                if arr[right].isalpha():
+                    arr[left], arr[right] = arr[right], arr[left]
+                    left += 1
+                    right -= 1
+                else:
+                    right -= 1
+            else:
+                left += 1
+
+        return ''.join(arr)
