@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 DataFrame products:
 
 +-------------+--------+
@@ -13,6 +14,7 @@ DataFrame products:
 +-------------+--------+
 
 Write a solution to fill in the missing value as 0 in the quantity column.
+
 
 # =================================================== #
                       SOLUTION
