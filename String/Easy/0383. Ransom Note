@@ -18,13 +18,15 @@ class Solution:
         
         hash_letters = {}
 
+        if len(ransomNote) > len(magazine):
+            return False
+
         for char in magazine:
             hash_letters[char] = hash_letters.get(char, 0) + 1
 
         for char in ransomNote:
-            if char in hash_letters and hash_letters[char] > 0:
-                hash_letters[char] -= 1
-            else:
+            if hash_letters.get(char, 0) == 0:
                 return False
+            hash_letters[char] -= 1
         
         return True
