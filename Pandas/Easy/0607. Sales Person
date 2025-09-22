@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: SalesPerson
 
 +-----------------+---------+
@@ -18,6 +19,7 @@ sales_id is the primary key (column with unique values) for this table.
 
 Each row of this table indicates the name and the ID of a salesperson alongside their salary, commission rate, and hire date.
  
+
 Table: Company
 
 +-------------+---------+
@@ -32,6 +34,7 @@ com_id is the primary key (column with unique values) for this table.
 
 Each row of this table indicates the name and the ID of a company and the city in which the company is located.
  
+
 Table: Orders
 
 +-------------+------+
@@ -56,6 +59,7 @@ Each row of this table contains information about one order. This includes the I
 Write a solution to find the names of all the salespersons who did not have any orders related to the company with the name "RED".
 
 Return the result table in any order.
+
 
 # =================================================== #
                       SOLUTION
