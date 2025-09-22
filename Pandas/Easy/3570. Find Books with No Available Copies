@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: library_books
 
 +------------------+---------+
@@ -38,9 +39,10 @@ Each row represents a borrowing transaction and return_date is NULL if the book 
 
 Write a solution to find all books that are currently borrowed (not returned) and have zero copies available in the library.
 
-・ A book is considered currently borrowed if there exists a borrowing record with a NULL return_date
+• A book is considered currently borrowed if there exists a borrowing record with a NULL return_date
 
 Return the result table ordered by current borrowers in descending order, then by book title in ascending order.
+
 
 # =================================================== #
                       SOLUTION
