@@ -31,6 +31,7 @@ Return the result table ordered by score in descending order.
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 import pandas as pd
 
 def order_scores(scores: pd.DataFrame) -> pd.DataFrame:
