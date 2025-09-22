@@ -1,0 +1,44 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given two strings s and goal, return true if you can swap two letters in s so the result is equal to goal, otherwise, return false.
+
+Swapping letters is defined as taking two indices i and j (0-indexed) such that i != j and swapping the characters at s[i] and s[j].
+
+• For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def buddyStrings(self, s: str, goal: str) -> bool:
+        
+        if len(s) != len(goal):
+            return False
+
+        seen = set()
+        index = []
+
+        if s == goal:
+            for char in s:
+                if char in seen:
+                    return True
+                seen.add(char)
+            return False
+        else:
+            for i, (char_s, char_g) in enumerate(zip(s, goal)):
+                if char_s != char_g:
+                    index.append(i)
+                if len(index) > 2:
+                    return False
+        
+        if len(index) < 2:
+            return False
+        else:
+            first, second = index
+            return s[first] == goal[second] and s[second] == goal[first]
