@@ -1,0 +1,37 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given a string s and a character c that occurs in s, return an array of integers answer where answer.length == s.length and answer[i] is the distance from index i to the closest occurrence of character c in s.
+
+The distance between two indices i and j is abs(i - j), where abs is the absolute value function.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def shortestToChar(self, s: str, c: str) -> List[int]:
+
+        arr = list(s)
+        index_first = float('-inf')
+        index_second = float('inf')
+
+        if len(s) == 1:
+            return [0]
+
+        for i, char in enumerate(arr):
+            if arr[i] == c:
+                arr[i] = 0
+                index_first = i
+            arr[i] = abs(i - index_first)
+
+        for j in reversed(range(len(arr))):
+            if arr[j] == 0:
+                index_second = j
+            arr[j] = min(arr[j], abs(j - index_second))
+
+        return arr
