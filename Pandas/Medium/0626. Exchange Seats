@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Seat
 
 +-------------+---------+
@@ -21,9 +22,11 @@ Write a solution to swap the seat id of every two consecutive students. If the n
 
 Return the result table ordered by id in ascending order.
 
+
 # =================================================== #
                       SOLUTION
 # =================================================== #
+
 
 import pandas as pd
 
