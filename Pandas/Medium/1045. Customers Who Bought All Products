@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Customer
 
 +-------------+---------+
@@ -32,9 +33,11 @@ Write a solution to report the customer ids from the Customer table that bought 
 
 Return the result table in any order.
 
+
 # =================================================== #
                       SOLUTION
 # =================================================== #
+
 
 import pandas as pd
 
