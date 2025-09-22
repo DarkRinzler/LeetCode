@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 DataFrame: employees
 
 +-------------+--------+
@@ -14,6 +15,7 @@ DataFrame: employees
 +-------------+--------+
 
 Write a solution to display the first 3 rows of this DataFrame.
+
 
 # =================================================== #
                       SOLUTION
