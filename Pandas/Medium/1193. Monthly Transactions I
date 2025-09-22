@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Transactions
 
 +---------------+---------+
@@ -24,9 +25,11 @@ Write an SQL query to find for each month and country, the number of transaction
 
 Return the result table in any order.
 
+
 # =================================================== #
                       SOLUTION
 # =================================================== #
+
 
 import pandas as pd
 
