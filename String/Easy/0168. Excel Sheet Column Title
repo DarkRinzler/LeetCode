@@ -1,0 +1,37 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+For example:
+
+A -> 1
+B -> 2
+C -> 3
+...
+Z -> 26
+AA -> 27
+AB -> 28 
+...
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def convertToTitle(self, columnNumber: int) -> str:
+        
+        column_name = ""
+        letter_dict = {i: char for i, char in enumerate(string.ascii_uppercase, start = 1)}
+    
+        while columnNumber > 0:
+            columnNumber -= 1
+            mod = columnNumber % 26
+            column_name = letter_dict[mod + 1] + column_name
+            columnNumber //= 26
+
+        return column_name
