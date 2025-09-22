@@ -1,0 +1,30 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+
+Each letter in magazine can only be used once in ransomNote.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        
+        hash_letters = {}
+
+        for char in magazine:
+            hash_letters[char] = hash_letters.get(char, 0) + 1
+
+        for char in ransomNote:
+            if char in hash_letters and hash_letters[char] > 0:
+                hash_letters[char] -= 1
+            else:
+                return False
+        
+        return True
