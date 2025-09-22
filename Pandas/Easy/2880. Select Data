@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 DataFrame students:
 
 +-------------+--------+
@@ -13,6 +14,7 @@ DataFrame students:
 +-------------+--------+
 
 Write a solution to select the name and age of the student with student_id = 101.
+
 
 # =================================================== #
                       SOLUTION
