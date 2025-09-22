@@ -1,0 +1,31 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        
+        i = 0
+        n = len(s)
+
+        if not s:
+            return True
+
+        for char in t:
+            if i < n and s[i] == char:
+                i += 1
+            elif i == n:
+                return True
+        
+        return i == n
