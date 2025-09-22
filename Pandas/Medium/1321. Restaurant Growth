@@ -31,6 +31,7 @@ Return the result table ordered by visited_on in ascending order.
                       SOLUTION
 # =================================================== #
 
+
 import pandas as pd
 
 def restaurant_growth(customer: pd.DataFrame) -> pd.DataFrame:
