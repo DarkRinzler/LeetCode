@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 DataFrame df1:
 
 +-------------+--------+
@@ -11,6 +12,7 @@ DataFrame df1:
 | name        | object |
 | age         | int    |
 +-------------+--------+
+
 
 DataFrame df2:
 
@@ -23,6 +25,7 @@ DataFrame df2:
 +-------------+--------+
 
 Write a solution to concatenate these two DataFrames vertically into one DataFrame.
+
 
 # =================================================== #
                       SOLUTION
