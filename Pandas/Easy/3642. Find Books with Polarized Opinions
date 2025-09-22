@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: books
 
 +-------------+---------+
@@ -37,17 +38,18 @@ Each row represents a reading session where someone read a portion of a book. se
 
 Write a solution to find books that have polarized opinions - books that receive both very high ratings and very low ratings from different readers.
 
-・ A book has polarized opinions if it has at least one rating ≥ 4 and at least one rating ≤ 2
+• A book has polarized opinions if it has at least one rating ≥ 4 and at least one rating ≤ 2
 
-・ Only consider books that have at least 5 reading sessions
+• Only consider books that have at least 5 reading sessions
 
-・ Calculate the rating spread as (highest_rating - lowest_rating)
+• Calculate the rating spread as (highest_rating - lowest_rating)
 
-・ Calculate the polarization score as the number of extreme ratings (ratings ≤ 2 or ≥ 4) divided by total sessions
+• Calculate the polarization score as the number of extreme ratings (ratings ≤ 2 or ≥ 4) divided by total sessions
 
-・ Only include books where polarization score ≥ 0.6 (at least 60% extreme ratings)
+• Only include books where polarization score ≥ 0.6 (at least 60% extreme ratings)
 
 Return the result table ordered by polarization score in descending order, then by title in descending order.
+
 
 # =================================================== #
                       SOLUTION
