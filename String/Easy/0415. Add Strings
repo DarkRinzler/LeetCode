@@ -1,0 +1,44 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.
+
+You must solve the problem without using any built-in library for handling large integers (such as BigInteger). 
+
+You must also not convert the inputs to integers directly.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+
+        result = []
+        rest = 0
+        n_diff = abs(len(num1) - len(num2))
+
+        if len(num1) < len(num2):
+            num1 = '0' * n_diff + num1
+        elif len(num1) > len(num2):
+            num2 = '0' * n_diff + num2
+
+        for i, j in (zip(reversed(num1), reversed(num2))):
+            a = ord(i) - ord('0')
+            b = ord(j) - ord('0')
+            n = a + b + rest
+            if n <= 9:
+                result.append(str(n))
+                rest = 0
+            else:
+                result.append(str(n % 10))
+                rest = n // 10
+            
+        if rest: 
+            result.append(str(rest))
+            
+        return ''.join(result[:: - 1])
