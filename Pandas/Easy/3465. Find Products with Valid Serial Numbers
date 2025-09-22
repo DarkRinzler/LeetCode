@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: products
 
 +--------------+------------+
@@ -18,15 +19,16 @@ Each row in the table represents a product with its unique ID, name, and descrip
 
 Write a solution to find all products whose description contains a valid serial number pattern. A valid serial number follows these rules:
 
-・ It starts with the letters SN (case-sensitive).
+• It starts with the letters SN (case-sensitive).
 
-・ Followed by exactly 4 digits.
+• Followed by exactly 4 digits.
 
-・ It must have a hyphen (-) followed by exactly 4 digits.
+• It must have a hyphen (-) followed by exactly 4 digits.
 
-・ The serial number must be within the description (it may not necessarily start at the beginning).
+• The serial number must be within the description (it may not necessarily start at the beginning).
 
 Return the result table ordered by product_id in ascending order.
+
 
 # =================================================== #
                       SOLUTION
