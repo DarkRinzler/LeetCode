@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: DailySales
 
 +-------------+---------+
@@ -23,6 +24,7 @@ The name consists of only lowercase English letters.
 For each date_id and make_name, find the number of distinct lead_id's and distinct partner_id's.
 
 Return the result table in any order.
+
 
 # =================================================== #
                       SOLUTION
