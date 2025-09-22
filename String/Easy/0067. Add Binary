@@ -1,0 +1,36 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given two binary strings a and b, return their sum as a binary string.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        
+        m = len(a) - len(b)
+
+        if m > 0:
+            b = '0' * m + b
+        elif m < 0:
+            a = '0' * abs(m) + a
+        
+        partial = 0
+        c = []
+
+        for n in reversed(range(len(a))):
+            s = (int(a[n]) + int(b[n]) + partial)
+            bit_sum = s % 2
+            partial = s // 2
+            c.append(bit_sum)
+
+        if partial:
+            c.append(1)
+        
+        return ''.join(str(x) for x in reversed(c))
