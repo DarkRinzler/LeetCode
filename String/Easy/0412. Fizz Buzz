@@ -1,0 +1,38 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given an integer n, return a string array answer (1-indexed) where:
+
+• answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+
+• answer[i] == "Fizz" if i is divisible by 3.
+
+• answer[i] == "Buzz" if i is divisible by 5.
+
+• answer[i] == i (as a string) if none of the above conditions are true.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def fizzBuzz(self, n: int) -> List[str]:
+        
+        word_a, word_b, word_c = 'FizzBuzz', 'Fizz', 'Buzz'
+        array = [str(x + 1) for x in range(n)]
+
+        for k in range(2, n, 3):
+            array[k] = word_b
+
+        for k in range(4, n, 5):
+            array[k] = word_c   
+
+        for k in range(14, n, 15):
+            array[k] = word_a
+        
+        return array
+        
