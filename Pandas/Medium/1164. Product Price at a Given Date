@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Products
 
 +---------------+---------+
@@ -22,9 +23,11 @@ Write a solution to find the prices of all products on the date 2019-08-16.
 
 Return the result table in any order.
 
+
 # =================================================== #
                       SOLUTION
 # =================================================== #
+
 
 import pandas as pd
 
