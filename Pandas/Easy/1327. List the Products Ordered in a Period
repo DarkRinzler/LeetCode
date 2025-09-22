@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 Table: Products
 
 +------------------+---------+
@@ -37,6 +38,7 @@ unit is the number of products ordered in order_date.
 Write a solution to get the names of products that have at least 100 units ordered in February 2020 and their amount.
 
 Return the result table in any order.
+
 
 # =================================================== #
                       SOLUTION
