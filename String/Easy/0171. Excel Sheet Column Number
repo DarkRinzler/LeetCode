@@ -1,0 +1,33 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.
+
+For example:
+
+A -> 1
+B -> 2
+C -> 3
+...
+Z -> 26
+AA -> 27
+AB -> 28 
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def titleToNumber(self, columnTitle: str) -> int:
+        
+        letter_dict = {char: i for i, char in enumerate(string.ascii_uppercase, start = 1)}
+        value = 0
+
+        for i, char in enumerate(reversed(columnTitle)):
+            value += letter_dict[char] * (26 ** i)
+
+        return value
