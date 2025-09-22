@@ -1,0 +1,53 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
+
+Note that after backspacing an empty text, the text will continue empty.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        
+        left, right = len(s) - 1, len(t) - 1
+        count_s, count_t = 0, 0
+        
+        while left >= 0 or right >= 0:
+
+            while left >= 0:
+                if s[left] == '#':
+                    count_s += 1
+                    left -= 1
+                elif count_s > 0:
+                    count_s -= 1
+                    left -= 1
+                else:
+                    break
+        
+            while right >= 0:
+                if t[right] == '#':
+                    count_t += 1
+                    right -= 1
+                elif count_t > 0:
+                    count_t -= 1
+                    right -= 1
+                else:
+                    break
+            
+            if left >= 0 and right >= 0:
+                if s[left] != t[right]:
+                    return False 
+            elif left >= 0 or right >= 0:
+                return False
+            
+            left -= 1
+            right -= 1
+
+        return True
