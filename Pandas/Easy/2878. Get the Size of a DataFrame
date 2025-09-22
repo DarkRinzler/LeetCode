@@ -2,6 +2,7 @@
                 PROBLEM DESCRITION
 # =================================================== #
 
+
 DataFrame players:
 
 +-------------+--------+
@@ -19,6 +20,7 @@ Write a solution to calculate and display the number of rows and columns of play
 Return the result as an array:
 
 [number of rows, number of columns]
+
 
 # =================================================== #
                       SOLUTION
