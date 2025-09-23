@@ -1,0 +1,28 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+A sentence is a string of single-space separated words where each word consists only of lowercase letters.
+
+A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+Given two sentences s1 and s2, return a list of all the uncommon words. You may return the answer in any order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def uncommonFromSentences(self, s1: str, s2: str) -> List[str]:
+        
+        total = s1.split() + s2.split()
+
+        counter = {}
+
+        for word in total:
+            counter[word] = counter.get(word, 0) + 1
+
+        return [word for word, freq in counter.items() if freq == 1]
