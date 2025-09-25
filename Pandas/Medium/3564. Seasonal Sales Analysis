@@ -1,0 +1,89 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: sales
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| sale_id       | int     |
+| product_id    | int     |
+| sale_date     | date    |
+| quantity      | int     |
+| price         | decimal |
++---------------+---------+
+
+sale_id is the unique identifier for this table.
+
+Each row contains information about a product sale including the product_id, date of sale, quantity sold, and price per unit.
+
+
+Table: products
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| product_name  | varchar |
+| category      | varchar |
++---------------+---------+
+
+product_id is the unique identifier for this table.
+
+Each row contains information about a product including its name and category.
+
+Write a solution to find the most popular product category for each season. The seasons are defined as:
+
+• Winter: December, January, February
+
+• Spring: March, April, May
+
+• Summer: June, July, August
+
+• Fall: September, October, November
+
+The popularity of a category is determined by the total quantity sold in that season. If there is a tie, select the category with the highest total revenue (quantity × price).
+
+Return the result table ordered by season in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def seasonal_sales_analysis(products: pd.DataFrame, sales: pd.DataFrame) -> pd.DataFrame:
+    
+    seasons = {
+        'Winter' : ['December', 'January', 'February'],
+        'Spring' : ['March', 'April', 'May'],
+        'Summer' : ['June', 'July', 'August'],
+        'Fall' : ['September', 'October', 'November']
+    }
+
+    month_to_season = {month : season for season, months in seasons.items() for month in months}
+
+    sales['season'] = sales['sale_date'].dt.strftime('%B').map(month_to_season)
+
+    sales['revenue'] = sales['quantity'] * sales['price']
+
+    sales['category'] = sales['product_id'].map(products.set_index('product_id')['category'])
+    
+    result = (
+        sales
+        .drop(columns = ['sale_id'])
+        .groupby(by = ['season', 'category'])
+        .agg(
+            total_quantity = ('quantity', 'sum'),
+            total_revenue = ('revenue', 'sum')
+        )
+        .reset_index()
+        .sort_values(by = ['season', 'total_quantity', 'total_revenue'], ascending = [True, False, False])
+        .drop_duplicates(subset = 'season', keep = 'first')        
+    )
+    
+    return result
