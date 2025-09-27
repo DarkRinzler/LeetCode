@@ -1,0 +1,97 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+able: patients
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| patient_id  | int     |
+| patient_name| varchar |
+| age         | int     |
++-------------+---------+
+
+patient_id is the unique identifier for this table.
+
+Each row contains information about a patient.
+
+
+Table: covid_tests
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| test_id     | int     |
+| patient_id  | int     |
+| test_date   | date    |
+| result      | varchar |
++-------------+---------+
+
+test_id is the unique identifier for this table.
+
+Each row represents a COVID test result. The result can be Positive, Negative, or Inconclusive.
+
+Write a solution to find patients who have recovered from COVID - patients who tested positive but later tested negative.
+
+• A patient is considered recovered if they have at least one Positive test followed by at least one Negative test on a later date
+
+• Calculate the recovery time in days as the difference between the first positive test and the first negative test after that positive test
+
+• Only include patients who have both positive and negative test results
+
+Return the result table ordered by recovery_time in ascending order, then by patient_name in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_covid_recovery_patients(patients: pd.DataFrame, covid_tests: pd.DataFrame) -> pd.DataFrame:
+
+    covid_tests['test_date'] = pd.to_datetime(covid_tests['test_date'])
+
+    positive_mask = (covid_tests['result'] == 'Positive')
+    
+    positive_dates = (
+        covid_tests
+        .loc[positive_mask]
+        .groupby(by = 'patient_id', as_index = False)
+        .agg(
+            positive_date = ('test_date', 'min')
+        )
+    )
+
+    negative_mask = (covid_tests['result'] == 'Negative')
+
+    negative_patients = pd.merge(
+        left = positive_dates,
+        right = covid_tests.loc[negative_mask],
+        how = 'left',
+        on = 'patient_id'
+    )
+
+    negative_patients['recovery_time'] = (negative_patients['test_date'] - negative_patients['positive_date']).dt.days
+    date_mask = (negative_patients['test_date'] > negative_patients['positive_date'])
+
+    recovery_days = (
+        negative_patients
+        .loc[date_mask]
+        .groupby(by = 'patient_id')['recovery_time']
+        .min()
+        .dropna()
+        .reset_index()
+    )
+
+    result = pd.merge(
+        left = patients,
+        right = recovery_days,
+        how = 'right',
+        on = 'patient_id'
+    )
+    
+    return result.sort_values(by = ['recovery_time', 'patient_name'], ascending = [True, True])
