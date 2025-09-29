@@ -1,0 +1,86 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: drivers
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| driver_id   | int     |
+| driver_name | varchar |
++-------------+---------+
+
+driver_id is the unique identifier for this table.
+
+Each row contains information about a driver.
+
+
+Table: trips
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| trip_id       | int     |
+| driver_id     | int     |
+| trip_date     | date    |
+| distance_km   | decimal |
+| fuel_consumed | decimal |
++---------------+---------+
+
+trip_id is the unique identifier for this table.
+
+Each row represents a trip made by a driver, including the distance traveled and fuel consumed for that trip.
+
+Write a solution to find drivers whose fuel efficiency has improved by comparing their average fuel efficiency in the first half of the year with the second half of the year.
+
+• Calculate fuel efficiency as distance_km / fuel_consumed for each trip
+
+• First half: January to June, Second half: July to December
+
+• Only include drivers who have trips in both halves of the year
+
+• Calculate the efficiency improvement as (second_half_avg - first_half_avg)
+
+• Round all results to 2 decimal places
+
+Return the result table ordered by efficiency improvement in descending order, then by driver name in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_improved_efficiency_drivers(drivers: pd.DataFrame, trips: pd.DataFrame) -> pd.DataFrame:
+    
+    trips['fuel_efficiency'] = trips['distance_km'] / trips['fuel_consumed']
+    trips['trip_date'] = pd.to_datetime(trips['trip_date']).dt.month
+    trips['half'] = np.where(trips['trip_date'] <= 6, 'first', 'second')
+
+    total_data = (
+        trips
+        .groupby(by = ['driver_id', 'half'])['fuel_efficiency']
+        .mean()
+        .unstack(level = - 1)
+        .reset_index()
+        .dropna()
+        .rename(columns = {'first' : 'first_half_avg', 'second' : 'second_half_avg'})
+    )
+
+    total_data['efficiency_improvement'] = total_data['second_half_avg'] - total_data['first_half_avg']
+
+    result = (
+        pd.merge(
+            left = drivers,
+            right = total_data.loc[total_data['efficiency_improvement'] > 0],
+            how = 'right',
+            on = 'driver_id'
+        )
+        .round(decimals = 2)
+    )
+    
+    return result.sort_values(by = ['efficiency_improvement', 'driver_name'], ascending = [False, True])
