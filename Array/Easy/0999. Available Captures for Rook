@@ -1,0 +1,80 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+You are given an 8 x 8 matrix representing a chessboard. There is exactly one white rook represented by 'R', some number of white bishops 'B', and some number of black pawns 'p'. Empty squares are represented by '.'.
+
+A rook can move any number of squares horizontally or vertically (up, down, left, right) until it reaches another piece or the edge of the board. A rook is attacking a pawn if it can move to the pawn's square in one move.
+
+Note: A rook cannot move through other pieces, such as bishops or pawns. This means a rook cannot attack a pawn if there is another piece blocking the path.
+
+Return the number of pawns the white rook is attacking.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def numRookCaptures(self, board: List[List[str]]) -> int:
+        
+        rows, columns = len(board), len(board[0])
+        rook_row, rook_col = 0, 0
+        captures = 0
+        
+        for x in range(rows):
+            for y in range(columns):
+                piece = board[x][y]
+                if piece == 'R':
+                    rook_row, rook_col = x, y
+        
+        left, right, up, down = True, True, True, True
+
+        for i in range(1, rows):
+            
+            if up:
+                if rook_row - i >= 0:
+                    if board[rook_row - i][rook_col] == 'p':
+                        captures += 1
+                        up = False
+                    elif board[rook_row - i][rook_col] == 'B':
+                        up = False
+                else:
+                    up = False
+            
+            if left:
+                if rook_col - i >= 0:
+                    if board[rook_row][rook_col - i] == 'p':
+                        captures += 1
+                        left = False
+                    elif board[rook_row][rook_col - i] == 'B':
+                        left = False
+                else:
+                    left = False
+            
+            if right:
+                if rook_col + i <= columns - 1:
+                    if board[rook_row][rook_col + i] == 'p':
+                        captures += 1
+                        right = False
+                    elif board[rook_row][rook_col + i] == 'B':
+                        right = False
+                else:
+                    right = False
+            
+            if down:
+                if rook_row + i <= rows - 1:
+                    if board[rook_row + i][rook_col] == 'p':
+                        captures += 1
+                        down = False
+                    elif board[rook_row + i][rook_col] == 'B':
+                        down = False
+                else:
+                    down = False
+            
+            if up == left == right == down == False:
+                
+                return captures
+            
