@@ -29,5 +29,5 @@ Return the result table in any order.
 SELECT p.email as "Email"
 FROM Person AS p
 GROUP BY p.email
-HAVING  COUNT(*) > 1
+HAVING  COUNT(*) > 1;
 
