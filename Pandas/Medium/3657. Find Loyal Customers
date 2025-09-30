@@ -1,0 +1,74 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: customer_transactions
+
++------------------+---------+
+| Column Name      | Type    | 
++------------------+---------+
+| transaction_id   | int     |
+| customer_id      | int     |
+| transaction_date | date    |
+| amount           | decimal |
+| transaction_type | varchar |
++------------------+---------+
+
+transaction_id is the unique identifier for this table.
+
+transaction_type can be either 'purchase' or 'refund'.
+
+Write a solution to find loyal customers. A customer is considered loyal if they meet ALL the following criteria:
+
+• Made at least 3 purchase transactions.
+
+• Have been active for at least 30 days.
+
+• Their refund rate is less than 20% .
+
+Return the result table ordered by customer_id in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_loyal_customers(customer_transactions: pd.DataFrame) -> pd.DataFrame:
+    
+    customer_transactions['transaction_date'] = pd.to_datetime(customer_transactions['transaction_date'])
+
+    transactions = (
+        customer_transactions
+        .groupby(by = ['customer_id', 'transaction_type'])['transaction_type']
+        .count()
+        .unstack(level = -1)
+        .reset_index()
+        .fillna(value = 0)
+    )
+
+    transactions['refund_rate'] = (transactions['refund'] / (transactions['refund'] + transactions['purchase'])).round(decimals = 2)
+    
+    time_activity = (
+        customer_transactions
+        .sort_values(by = ['transaction_date'], ascending = True)
+        .groupby(by = 'customer_id')['transaction_date']
+        .agg(['first', 'last'])
+        .reset_index()
+    )
+
+    time_activity['activity'] = (time_activity['last'] - time_activity['first']).dt.days
+
+    result = pd.merge(
+        left = transactions,
+        right = time_activity,
+        how = 'left',
+        on = 'customer_id'
+    )
+
+    loyal_mask = (result['activity'] >= 30) & (result['refund_rate'] < 0.2) & (result['purchase'] >= 3)
+
+    return result.loc[loyal_mask][['customer_id']]
