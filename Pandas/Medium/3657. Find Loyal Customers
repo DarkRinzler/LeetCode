@@ -50,7 +50,9 @@ def find_loyal_customers(customer_transactions: pd.DataFrame) -> pd.DataFrame:
         .fillna(value = 0)
     )
 
-    transactions['refund_rate'] = (transactions['refund'] / (transactions['refund'] + transactions['purchase'])).round(decimals = 2)
+    transactions['refund_rate'] = (
+        transactions['refund'] / (transactions['refund'] + transactions['purchase'])
+        ).round(decimals = 2).fillna(value = 0)
     
     time_activity = (
         customer_transactions
