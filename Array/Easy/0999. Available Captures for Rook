@@ -35,45 +35,33 @@ class Solution:
         for i in range(1, rows):
             
             if up:
-                if rook_row - i >= 0:
-                    if board[rook_row - i][rook_col] == 'p':
+                if rook_row - i < 0 or board[rook_row - i][rook_col] == 'B':
+                    up = False
+                elif board[rook_row - i][rook_col] == 'p':
                         captures += 1
                         up = False
-                    elif board[rook_row - i][rook_col] == 'B':
-                        up = False
-                else:
-                    up = False
             
             if left:
-                if rook_col - i >= 0:
-                    if board[rook_row][rook_col - i] == 'p':
-                        captures += 1
-                        left = False
-                    elif board[rook_row][rook_col - i] == 'B':
-                        left = False
-                else:
+                if rook_col - i < 0 or board[rook_row][rook_col - i] == 'B':
                     left = False
-            
+                elif board[rook_row][rook_col - i] == 'p':
+                        captures += 1
+                        left = False
+
             if right:
-                if rook_col + i <= columns - 1:
-                    if board[rook_row][rook_col + i] == 'p':
+                if rook_col + i > columns - 1 or board[rook_row][rook_col + i] == 'B':
+                    right = False
+                elif board[rook_row][rook_col + i] == 'p':
                         captures += 1
                         right = False
-                    elif board[rook_row][rook_col + i] == 'B':
-                        right = False
-                else:
-                    right = False
             
             if down:
-                if rook_row + i <= rows - 1:
-                    if board[rook_row + i][rook_col] == 'p':
+                if rook_row + i > rows - 1 or board[rook_row + i][rook_col] == 'B':
+                    down = False
+                elif board[rook_row + i][rook_col] == 'p':
                         captures += 1
                         down = False
-                    elif board[rook_row + i][rook_col] == 'B':
-                        down = False
-                else:
-                    down = False
-            
+
             if up == left == right == down == False:
                 
                 return captures
