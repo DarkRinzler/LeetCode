@@ -1,0 +1,113 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: stores
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| store_id    | int     |
+| store_name  | varchar |
+| location    | varchar |
++-------------+---------+
+
+store_id is the unique identifier for this table.
+
+Each row contains information about a store and its location.
+
+
+Table: inventory
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| inventory_id| int     |
+| store_id    | int     |
+| product_name| varchar |
+| quantity    | int     |
+| price       | decimal |
++-------------+---------+
+
+inventory_id is the unique identifier for this table.
+
+Each row represents the inventory of a specific product at a specific store.
+
+Write a solution to find stores that have inventory imbalance - stores where the most expensive product has lower stock than the cheapest product.
+
+• For each store, identify the most expensive product (highest price) and its quantity
+
+• For each store, identify the cheapest product (lowest price) and its quantity
+
+• A store has inventory imbalance if the most expensive product's quantity is less than the cheapest product's quantity
+
+• Calculate the imbalance ratio as (cheapest_quantity / most_expensive_quantity)
+
+• Round the imbalance ratio to 2 decimal places
+
+• Only include stores that have at least 3 different products
+
+Return the result table ordered by imbalance ratio in descending order, then by store name in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_inventory_imbalance(stores: pd.DataFrame, inventory: pd.DataFrame) -> pd.DataFrame:
+    
+    total_products = (
+        inventory
+        .groupby(by = 'store_id')['product_name']
+        .transform('nunique')
+    )
+
+    valid_stores = inventory.loc[total_products >= 3]
+
+    idx_max = valid_stores.groupby(by = 'store_id')['price'].idxmax()
+
+    idx_min = valid_stores.groupby(by = 'store_id')['price'].idxmin()
+
+    most_expensive = (
+        valid_stores
+        .loc[idx_max]
+        .rename(columns = {'product_name': 'most_exp_product', 'quantity': 'quantity_max'})
+    )
+
+    cheapest = (
+        valid_stores
+        .loc[idx_min]
+        .rename(columns = {'product_name': 'cheapest_product', 'quantity': 'quantity_min'})
+    )
+
+    max_min_inventory = pd.merge (
+        left = most_expensive,
+        right = cheapest,
+        how = 'inner',
+        on = 'store_id'
+    )
+
+    imbalance_mask = (max_min_inventory['quantity_max'] < max_min_inventory['quantity_min']) 
+
+    inventory_imbalance = max_min_inventory.loc[imbalance_mask]
+
+    inventory_imbalance['imbalance_ratio'] = (
+        (inventory_imbalance['quantity_min'] / inventory_imbalance['quantity_max'])
+        .round(decimals = 2)
+    )
+    
+    result = (
+        pd.merge(
+            left = stores,
+            right = inventory_imbalance[['store_id', 'most_exp_product', 'cheapest_product', 'imbalance_ratio']],
+            how = 'inner',
+            on = 'store_id'
+        )
+    )
+
+    return result.sort_values(by = ['imbalance_ratio', 'store_name'], ascending = [False, True])
+        
