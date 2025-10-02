@@ -1,0 +1,30 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given an integer num, return a string of its base 7 representation.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def convertToBase7(self, num: int) -> str:
+        
+        if num == 0:
+            return f'{num}'
+
+        repre = '' 
+        divisor = abs(num)
+        digits = []
+
+        while divisor != 0:
+            digits.append(str(divisor % 7))
+            divisor //= 7
+ 
+        base_7 = ''.join(reversed(digits))
+
+        return base_7 if num > 0 else '-' + base_7
