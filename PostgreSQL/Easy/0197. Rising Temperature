@@ -1,0 +1,45 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: Weather
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| recordDate    | date    |
+| temperature   | int     |
++---------------+---------+
+
+id is the column with unique values for this table.
+
+There are no different rows with the same recordDate.
+
+This table contains information about the temperature on a certain day.
+ 
+Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday).
+
+Return the result table in any order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+WITH records AS (
+    SELECT 
+        id,
+        recordDate,
+        temperature,
+        LAG(temperature) OVER (ORDER BY recordDate) AS prev_temperature,
+        recordDate - LAG(recordDate) OVER (ORDER BY recordDate) AS time_difference 
+    FROM Weather
+)
+
+SELECT id
+FROM records
+WHERE temperature > prev_temperature 
+    AND time_difference = 1;
