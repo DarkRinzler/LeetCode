@@ -1,0 +1,27 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.
+
+A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        
+        rows, columns = len(matrix) - 1, len(matrix[0])
+
+        for num in range(rows):
+            up = matrix[num][:columns - 1]
+            down = matrix[num + 1][1:columns]
+            if up != down:
+                return False
+
+        return True
