@@ -16,12 +16,11 @@ A matrix is Toeplitz if every diagonal from top-left to bottom-right has the sam
 class Solution:
     def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
         
-        rows, columns = len(matrix) - 1, len(matrix[0])
+        rows, columns = len(matrix) - 1, len(matrix[0]) - 1
 
-        for num in range(rows):
-            up = matrix[num][:columns - 1]
-            down = matrix[num + 1][1:columns]
-            if up != down:
-                return False
+        for row in range(rows):
+            for col in range(columns):
+                if matrix[row][col] != matrix[row + 1][col + 1]:
+                    return False
 
         return True
