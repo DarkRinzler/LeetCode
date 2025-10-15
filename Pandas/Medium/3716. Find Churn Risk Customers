@@ -1,0 +1,97 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: subscription_events
+
++------------------+---------+
+| Column Name      | Type    | 
++------------------+---------+
+| event_id         | int     |
+| user_id          | int     |
+| event_date       | date    |
+| event_type       | varchar |
+| plan_name        | varchar |
+| monthly_amount   | decimal |
++------------------+---------+
+
+event_id is the unique identifier for this table.
+
+event_type can be start, upgrade, downgrade, or cancel.
+
+plan_name can be basic, standard, premium, or NULL (when event_type is cancel).
+
+monthly_amount represents the monthly subscription cost after this event.
+
+For cancel events, monthly_amount is 0.
+
+Write a solution to Find Churn Risk Customers - users who show warning signs before churning. A user is considered churn risk customer if they meet ALL the following criteria:
+
+• Currently have an active subscription (their last event is not cancel).
+
+• Have performed at least one downgrade in their subscription history.
+
+• Their current plan revenue is less than 50% of their historical maximum plan revenue.
+
+• Have been a subscriber for at least 60 days.
+
+Return the result table ordered by days_as_subscriber in descending order, then by user_id in ascending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+
+def find_churn_risk_customers(subscription_events: pd.DataFrame) -> pd.DataFrame:
+    
+    subscription_events['event_date'] = pd.to_datetime(subscription_events['event_date'])
+
+    subscription_events['downgrades'] = subscription_events['event_type'] == 'downgrade'
+
+    last_info = (~subscription_events.duplicated(subset = 'user_id', keep = 'last'))
+
+    extra_info = (
+        subscription_events
+        .groupby(by = 'user_id')
+        .agg(
+            first_date = ('event_date', 'min'),
+            max_amount = ('monthly_amount', 'max'),
+            all_downgrades = ('downgrades', 'sum')
+        )
+        .reset_index()
+    )
+
+    downgrades_mask = (extra_info['all_downgrades'] > 0)
+
+    active_mask = (~subscription_events['plan_name'].isna())
+
+    all_info = pd.merge(
+        left = subscription_events.loc[last_info & active_mask],
+        right = extra_info.loc[downgrades_mask],
+        how = 'left',
+        on = 'user_id'
+    )
+
+    all_info['days_as_subscriber'] = (all_info['event_date'] - all_info['first_date']).dt.days
+
+    days_mask = (all_info['days_as_subscriber'] >= 60)
+
+    revenue_mask = (all_info['monthly_amount'] < (all_info['max_amount'] * 0.5))
+
+    result = (
+        all_info
+        .drop(columns = ['event_id', 'event_date', 'downgrades', 'event_type', 'first_date', 'all_downgrades'])
+        .loc[revenue_mask & days_mask]
+        .rename(columns = {
+            'plan_name': 'current_plan',
+            'monthly_amount': 'current_monthly_amount',
+            'max_amount': 'max_historical_amount',
+        })
+    )
+
+    return result.sort_values(by = ['days_as_subscriber', 'user_id'], ascending = [False, True])
+    
