@@ -1,0 +1,93 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+Table: restaurant_orders
+
++------------------+----------+
+| Column Name      | Type     | 
++------------------+----------+
+| order_id         | int      |
+| customer_id      | int      |
+| order_timestamp  | datetime |
+| order_amount     | decimal  |
+| payment_method   | varchar  |
+| order_rating     | int      |
++------------------+----------+
+
+order_id is the unique identifier for this table.
+
+payment_method can be cash, card, or app.
+
+order_rating is between 1 and 5, where 5 is the best (NULL if not rated).
+
+order_timestamp contains both date and time information.
+
+Write a solution to find golden hour customers - customers who consistently order during peak hours and provide high satisfaction. A customer is a golden hour customer if they meet ALL the following criteria:
+
+• Made at least 3 orders.
+
+• At least 60% of their orders are during peak hours (11:00-14:00 or 18:00-21:00).
+
+• Their average rating for rated orders is at least 4.0, round it to 2 decimal places.
+
+• Have rated at least 50% of their orders.
+
+Return the result table ordered by average_rating in descending order, then by customer_id​​​​​​​ in descending order.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+import pandas as pd
+import datetime as dt
+
+def find_golden_hour_customers(restaurant_orders: pd.DataFrame) -> pd.DataFrame:
+    
+    times = pd.to_datetime(restaurant_orders['order_timestamp']).dt.time
+
+    restaurant_orders['peak_hour'] = (
+        (
+            (times >= dt.time(11, 0, 0)) & (times <= dt.time(14, 0, 0))
+        ) | (
+            (times >= dt.time(18, 0, 0)) & (times <= dt.time(21, 0, 0))
+        )
+    )
+
+    customers_info = (
+        restaurant_orders
+        .groupby(by = 'customer_id')
+        .agg(
+            total_orders = ('order_timestamp', 'count'),
+            peak_hour_orders = ('peak_hour', 'sum'),
+            rated_orders = ('order_rating', 'count'),
+            average_rating = ('order_rating', 'mean')
+
+        )
+        .reset_index()
+    )
+
+    customers_info['peak_hour_percentage'] = round((customers_info['peak_hour_orders'] / customers_info['total_orders']) * 100, 0)
+
+    customers_info['percentage_rated'] = round((customers_info['rated_orders'] / customers_info['total_orders']) * 100, 0)
+
+    customers_info['average_rating'] = customers_info['average_rating'].round(decimals = 2)
+
+    all_mask = (
+        (customers_info['total_orders'] > 2) &
+        (customers_info['peak_hour_percentage'] >= 60) &
+        (customers_info['average_rating'] >= 4) & 
+        (customers_info['percentage_rated'] >= 50)
+    )
+
+    result = (
+        customers_info
+        .drop(columns = ['peak_hour_orders', 'rated_orders'])
+        .loc[all_mask]
+        .sort_values(by = ['average_rating', 'customer_id'], ascending = [False, False])
+    )
+
+    return result[['customer_id', 'total_orders', 'peak_hour_percentage', 'average_rating']]
