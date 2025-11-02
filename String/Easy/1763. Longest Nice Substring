@@ -1,0 +1,68 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+A string s is nice if, for every letter of the alphabet that s contains, it appears both in uppercase and lowercase. 
+
+For example, "abABB" is nice because 'A' and 'a' appear, and 'B' and 'b' appear. However, "abA" is not because 'b' appears, but 'B' does not.
+
+Given a string s, return the longest substring of s that is nice. If there are multiple, return the substring of the earliest occurrence. If there are none, return an empty string.
+
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+First Solution:
+
+class Solution:
+    def longestNiceSubstring(self, s: str) -> str:
+
+        if len(s) < 2:
+            return ""
+
+        letters = set(s)
+
+        for index, char in enumerate(s):
+            if char.swapcase() not in letters:
+                left_substring = self.longestNiceSubstring(s[:index])
+                right_substring = self.longestNiceSubstring(s[index + 1:])
+                if len(left_substring) >= len(right_substring):
+                    return left_substring
+                else:
+                    return right_substring
+        
+        return s
+
+
+Second Solution:
+
+class Solution:
+    def longestNiceSubstring(self, s: str) -> str:
+
+        if len(s) < 2:
+            return ""
+
+        best_sub = ""
+        stack = [s]
+
+        while stack:
+
+            sub = stack.pop()
+            if len(sub) <= len(best_sub):
+                continue
+
+            unique = set(sub)
+            not_nice = {char for char in sub if char.swapcase() not in unique}
+
+            if not not_nice:
+                if len(sub) > len(best_sub):
+                    best_sub = sub
+                continue
+
+            parts = ["".join(group) for key, group in groupby(sub, key = lambda char: char not in not_nice) if key]
+            stack.extend(parts[::-1])
+
+        return best_sub
