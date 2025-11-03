@@ -1,0 +1,38 @@
+# =================================================== #
+                PROBLEM DESCRITION
+# =================================================== #
+
+
+An image smoother is a filter of the size 3 x 3 that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). 
+
+If one or more of the surrounding cells of a cell is not present, we do not consider it in the average (i.e., the average of the four cells in the red smoother).
+
+Given an m x n integer matrix img representing the grayscale of an image, return the image after applying the smoother on each cell of it.
+
+# =================================================== #
+                      SOLUTION
+# =================================================== #
+
+
+class Solution:
+    def imageSmoother(self, img: List[List[int]]) -> List[List[int]]:
+        
+        rows, columns = len(img), len(img[0])
+        result = [[0] * columns for _ in range(rows)]
+
+        def smoother(row: int, col: int) -> int:
+            pixel_sum, elements = 0, 0
+
+            for m in range(row - 1, row + 2):
+                for n in range(col - 1, col + 2):
+                    if 0 <= m < rows and 0 <= n < columns:
+                        pixel_sum += img[m][n]
+                        elements += 1
+
+            return pixel_sum // elements
+        
+        for i in range(rows):
+            for j in range(columns):
+                result[i][j] = smoother(i, j)
+
+        return result
